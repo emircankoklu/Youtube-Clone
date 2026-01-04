@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Clone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #0f0f0f;
+            color: #fff;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #0f0f0f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            background-color: #ff0000;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .header-center {
+            flex: 0 1 600px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #303030;
+            background-color: #121212;
+            color: #fff;
+            border-radius: 40px 0 0 40px;
+            outline: none;
+        }
+
+        .search-button {
+            padding: 0 25px;
+            background-color: #222;
+            border: 1px solid #303030;
+            border-left: none;
+            border-radius: 0 40px 40px 0;
+            cursor: pointer;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: #0f0f0f;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-chip {
+            padding: 8px 16px;
+            background-color: #272727;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-chip.active {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .nav-chip:hover {
+            background-color: #3f3f3f;
+        }
+
+        /* Main Content */
+        .container {
+            display: flex;
+            padding: 24px 16px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            padding-right: 16px;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .sidebar-item:hover {
+            background-color: #272727;
+        }
+
+        .sidebar-item.active {
+            background-color: #272727;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .video-card {
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .thumbnail {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #272727;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .video-info {
+            display: flex;
+            gap: 12px;
+        }
+
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #065fd4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .video-details {
+            flex: 1;
+        }
+
+        .video-title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-metadata {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-center {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="menu-icon">☰</div>
+            <div class="logo">
+                <span class="logo-icon">▶</span>
+                <span>YouTube</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Ara">
+                <button class="search-button">🔍</button>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn">📹</button>
+            <button class="icon-btn">🔔</button>
+            <button class="icon-btn">👤</button>
+        </div>
+    </header>
+
+    <!-- Navigation Chips -->
+    <nav>
+        <button class="nav-chip active">Tümü</button>
+        <button class="nav-chip">Müzik</button>
+        <button class="nav-chip">Oyun</button>
+        <button class="nav-chip">Podcast'ler</button>
+        <button class="nav-chip">Canlı</button>
+        <button class="nav-chip">Pembe diziler</button>
+        <button class="nav-chip">Komedi skečleri/tiyatroları</button>
+        <button class="nav-chip">Rap yapma</button>
+        <button class="nav-chip">Futbol</button>
+        <button class="nav-chip">Aksiyon-macera oyunları</button>
+        <button class="nav-chip">Son yüklemeler</button>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="#" class="sidebar-item active">
+                <span>🏠</span>
+                <span>Ana Sayfa</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <span>📱</span>
+                <span>Shorts</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <span>📚</span>
+                <span>Abonelikler</span>
+            </a>
+            <hr style="margin: 12px 0; border: none; border-top: 1px solid #272727;">
+            <a href="#" class="sidebar-item">
+                <span>👤</span>
+                <span>Siz</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <span>🕒</span>
+                <span>Geçmiş</span>
+            </a>
+        </aside>
+
+        <!-- Video Grid -->
+        <main class="video-grid">
+            {% for video in videos %}
+            <div class="video-card">
+                <div class="thumbnail">
+                    <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                    <span class="duration">{{ video.duration }}</span>
+                </div>
+                <div class="video-info">
+                    <div class="channel-icon">{{ video.channel|slice:":1" }}</div>
+                    <div class="video-details">
+                        <div class="video-title">{{ video.title }}</div>
+                        <div class="video-metadata">
+                            <div>{{ video.channel }}</div>
+                            <div>{{ video.views }} görüntülenme • {{ video.time }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </main>
+    </div>
+</body>
+</html>
