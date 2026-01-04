@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'youtube_clone.urls'
+ROOT_URLCONF = 'Youtube_Clone.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'youtube_clone.wsgi.application'
+WSGI_APPLICATION = 'Youtube_Clone.wsgi.application'
 
 
 # Database
